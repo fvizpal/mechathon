@@ -14,6 +14,7 @@ import { useState } from "react"
 import { useModal } from "@/hooks/useModalStore"
 import LoginForm from "../shared/LoginForm"
 import RegisterForm from "../shared/RegisterForm"
+import { SocialLogin } from "../shared/SocialLogin"
 
 const AuthModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -40,6 +41,7 @@ const AuthModal = () => {
             </>
           )
           }
+          <SocialLogin />
         </DialogHeader>
       </DialogContent>
     </Dialog>

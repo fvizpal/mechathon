@@ -14,12 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
-const RegisterSchema = z.object({
-  fullname: z.string().min(3),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(5, { message: "Password must be 8 length min" }),
-})
+import { RegisterSchema } from '@/schemas';
+import { useState, useTransition } from 'react';
+import { register } from '@/lib/actions/register';
 
 const RegisterForm = ({ setIsLogin }: {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>
@@ -27,14 +24,30 @@ const RegisterForm = ({ setIsLogin }: {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      fullname: "",
+      name: "",
       email: "",
       password: "",
     },
   })
 
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    console.log(values);
+    // console.log(values);
+    setError("");
+    setSuccess("");
+
+    startTransition(() => {
+      register(values)
+        .then((data) => {
+          setError(data.error);
+          setSuccess(data.success);
+        });
+    });
+    console.log("register Success");
+    setIsLogin(true);
   };
 
   return (
@@ -42,7 +55,7 @@ const RegisterForm = ({ setIsLogin }: {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name='fullname'
+          name='name'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Full Name</FormLabel>
@@ -79,7 +92,7 @@ const RegisterForm = ({ setIsLogin }: {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isPending} type="submit">Submit</Button>
       </form>
       <div onClick={() => setIsLogin(true)} className=' underline'>
         Already Registered? Login...
