@@ -11,6 +11,7 @@ const CheckModal = () => {
       <Button onClick={() => onOpen('auth')}>AuthModal</Button>
       <Button onClick={() => onOpen('createCommunity')}>CreateCommunityModal</Button>
       <Button onClick={() => onOpen('createGroup')}>createGroupModal</Button>
+      <Button onClick={() => onOpen('createGroup')}>createGroupModal</Button>
     </div>
   )
 }
