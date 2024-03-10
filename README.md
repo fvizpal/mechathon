@@ -29,9 +29,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 src
 ├───app
+│   ├───(root)
+│   └───api
+│       └───auth
+│           └───[...nextauth]
 ├───components
+│   ├───modals
 │   ├───providers
 │   ├───shared
 │   └───ui
+├───hooks
 └───lib
 ```
