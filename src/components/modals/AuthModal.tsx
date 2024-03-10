@@ -11,16 +11,22 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useState } from "react"
-import LoginForm from "./LoginForm"
-import RegisterForm from "./RegisterForm"
+import { useModal } from "@/hooks/useModalStore"
+import LoginForm from "../shared/LoginForm"
+import RegisterForm from "../shared/RegisterForm"
 
-const AuthDialog = () => {
+const AuthModal = () => {
+  const { isOpen, onClose, type } = useModal();
+
+  const isModalOpen = isOpen && type === 'auth';
+
   const [isLogin, setIsLogin] = useState<boolean>(true);
+
+  const handleClose = () => {
+    onClose();
+  }
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant={"outline"}>Enter</Button>
-      </DialogTrigger>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isLogin ? (<>Login</>) : (<>Register</>)}</DialogTitle>
@@ -40,4 +46,4 @@ const AuthDialog = () => {
   )
 }
 
-export default AuthDialog
+export default AuthModal
