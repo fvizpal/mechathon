@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 export type ModalType =
-  | "auth"
+  | "auth"  
   | "createCommunity"
   | "invite"
   | "editCommunity"

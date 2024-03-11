@@ -4,12 +4,12 @@ import AuthModal from "../modals/AuthModal"
 import { CreateCommunityModal } from "../modals/CreateCommunityModal"
 import { CreateGroupModal } from "../modals/CreateGroup"
 
-//   | "auth"
-//   | "createCommunity"
+//   | "auth"   x 
+//   | "createCommunity"   x 
 //   | "invite" // with a link and copy button 
 //   | "editCommunity"
 //   | "members" // renders members with name and email
-//   | "createGroup"
+//   | "createGroup"   x 
 //   | "leaveCommunity" // confirm that you want to leave community
 //   | "deleteCommunity" // confirm for deletion of community
 //   | "deleteGroups" // confirm the deletion of group

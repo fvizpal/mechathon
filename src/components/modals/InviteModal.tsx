@@ -10,15 +10,13 @@ import { Input } from "@/components/ui/input";
 import {  Form, FormControl,  FormField,  FormItem,  FormLabel,  FormMessage} from "@/components/ui/form";
 
 const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Community name is required."
-  })
+  name: z.string()
 });
 
-export const CreateCommunityModal = () => {
+export const InviteModal = () => {
   const { isOpen, onClose, type } = useModal();
 
-  const isModalOpen = isOpen && type === 'createCommunity';
+  const isModalOpen = isOpen && type === 'invite';
 
   const handleClose = () => {
     onClose();
@@ -36,7 +34,6 @@ export const CreateCommunityModal = () => {
     console.log(values);
   }
   return (
-    <>
     <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
@@ -55,12 +52,12 @@ export const CreateCommunityModal = () => {
                     <FormLabel
                       className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                     >
-                      Community name
+                      Server name
                     </FormLabel>
                     <FormControl>
                       <Input
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter name"
+                        placeholder="Enter server name"
                         {...field}
                       />
                     </FormControl>
@@ -78,6 +75,5 @@ export const CreateCommunityModal = () => {
         </Form>
       </DialogContent>
     </Dialog>
-    </>
   )
 }
