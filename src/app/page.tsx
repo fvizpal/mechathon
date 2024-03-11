@@ -1,8 +1,8 @@
 import CheckModal from "@/components/shared/CheckModal";
-import { ModeToggle } from "@/components/shared/ModeToggle";
-import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import GenIntro from "@/components/shared/GenIntro";
+import Header from "@/components/shared/Header";
+import { ModeToggle } from "@/components/shared/ModeToggle";
 import Portfolio1 from "@/components/shared/PortFolio1";
 import PortFolio2 from "@/components/shared/PortFolio2";
 import PortFolio3 from "@/components/shared/PortFolio3";
@@ -18,7 +18,7 @@ export default function Home() {
         <ModeToggle />
         <br />
         Hello!
-        <CheckModal />
+        <CheckModal/>
       </div>
     </main>
     <GenIntro/>
