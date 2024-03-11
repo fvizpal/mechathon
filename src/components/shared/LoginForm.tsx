@@ -14,11 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
-const LoginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(5, { message: "Password must be 8 length min" }),
-})
+import { LoginSchema } from '@/schemas';
+import { useState, useTransition } from 'react';
+import { login } from '@/lib/actions/login';
 
 const LoginForm = ({ setIsLogin }: {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,8 +29,25 @@ const LoginForm = ({ setIsLogin }: {
     },
   })
 
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    setError("");
+    setSuccess("");
+
+    startTransition(() => {
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error)
+          }
+        }).catch(() => setError("Something went wrong"));
+    })
+    // TODO: redirect
+    console.log("Login Success");
   };
 
   return (
@@ -64,7 +79,7 @@ const LoginForm = ({ setIsLogin }: {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isPending} type="submit">Submit</Button>
       </form>
       <div onClick={() => setIsLogin(false)} className=' underline'>
         Are you new here? SignUp...
