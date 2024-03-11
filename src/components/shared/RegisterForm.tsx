@@ -94,6 +94,7 @@ const RegisterForm = ({ setIsLogin }: {
         />
         <Button disabled={isPending} type="submit">Submit</Button>
       </form>
+      {/* TODO: ADD SUCCESS AND ERROR COMPONENETS  */}
       <div onClick={() => setIsLogin(true)} className=' underline'>
         Already Registered? Login...
       </div>

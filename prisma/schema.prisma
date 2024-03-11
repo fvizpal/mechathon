@@ -9,26 +9,33 @@ datasource db {
 // npx prisma generate
 // npx prisma db push
 
+//npx prisma migrate reset
+
 generator client {
   provider = "prisma-client-js"
   // previewFeatures = ["driverAdapters"]
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @default(uuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  // role          UserRole @default(USER)
-  accounts      Account[]
-  // isTwoFactorEnabled Boolean   @default(false)
-  // twoFactorConfirmation TwoFactorConfirmation?
+
+  accounts Account[]
+
+  communities Community[]
+  members     Member[]
+  groups      Group[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -47,10 +54,83 @@ model Account {
 }
 
 model VerificationToken {
-  id      String   @id @default(cuid())
+  id      String   @id @default(uuid())
   email   String
   token   String   @unique
   expires DateTime
 
   @@unique([email, token])
+}
+
+model Community {
+  id         String @id @default(uuid())
+  name       String
+  imageUrl   String @db.Text
+  inviteCode String @unique
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  members Member[]
+  groups  Group[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model Member {
+  id   String     @id @default(uuid())
+  role MemberRole @default(GUEST)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  // messages Message[]
+  // directMessages DirectMessage[]
+
+  // conversationsInitiated Conversation[] @relation("MemberOne")
+  // conversationsReceived  Conversation[] @relation("MemberTwo")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([communityId])
+}
+
+enum GroupType {
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+model Group {
+  id   String    @id @default(uuid())
+  name String
+  type GroupType @default(TEXT)
+
+  userId  String
+  profile User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  // messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([communityId])
 }

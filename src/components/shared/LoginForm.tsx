@@ -17,10 +17,13 @@ import { Input } from "@/components/ui/input"
 import { LoginSchema } from '@/schemas';
 import { useState, useTransition } from 'react';
 import { login } from '@/lib/actions/login';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = ({ setIsLogin }: {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -48,6 +51,7 @@ const LoginForm = ({ setIsLogin }: {
     })
     // TODO: redirect
     console.log("Login Success");
+    router.push('/onboard')
   };
 
   return (
@@ -84,6 +88,7 @@ const LoginForm = ({ setIsLogin }: {
       <div onClick={() => setIsLogin(false)} className=' underline'>
         Are you new here? SignUp...
       </div>
+      {/* TODO: ADD SUCCESS AND ERROR COMPONENETS  */}
     </Form>
   )
 }

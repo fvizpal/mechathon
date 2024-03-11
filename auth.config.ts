@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 
+//prisma adapter doesnt work on edge thats why this file
+
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/schemas";
 import { db } from "./src/lib/database/db";
@@ -24,7 +26,7 @@ export default {
               email,
             }
           })
-          if (!user || !user.password) return null;
+          if (!user || !user.password) return null; // Third Providers dont have password
 
           const passwordMatch = await bcrypt.compare(password, user.password);
 

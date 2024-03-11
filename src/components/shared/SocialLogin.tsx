@@ -2,12 +2,13 @@
 
 import { signIn } from "next-auth/react";
 import { Button } from "../ui/button"
+import { DEFAULT_LOGIN_REDIRECT } from "../../../routes";
 
 export const SocialLogin = () => {
 
   const onClick = (provider: "google") => {
     signIn(provider, {
-      callbackUrl: '/home'
+      callbackUrl: DEFAULT_LOGIN_REDIRECT
     })
   }
 

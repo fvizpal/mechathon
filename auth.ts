@@ -10,7 +10,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  events: { // for side-effects // different form callbacks
+  events: { // for side-effects // is OAuth then auto set emailverified
     async linkAccount({ user }) {
       await db.user.update({
         where: { id: user.id },
@@ -33,34 +33,30 @@ export const {
 
       return true;
     },
-    // async jwt({ token }) {
-    //   if(!token.sub) return token;
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
 
-    //   const existingUser = await db.user.findUnique({
-    //     where:{
-    //       id: token.sub,
-    //     }
-    //   });
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
 
-    //   if(!existingUser) return token;
+      return session;
+    },
+    async jwt({ token }) {
+      if (!token.sub) return token;
 
-    //   const existingAccount = await db.account.findFirst({
-    //     where: {
-    //       userId: existingUser.id,
-    //     }
-    //   });
+      const existingUser = await db.user.findUnique({ where: { id: token.sub } });
 
-    //   token.name = existingUser.name;
-    //   token.email = existingUser.email;
+      if (!existingUser) return token;
 
-    //   return token;
-    // },
-    // async session({token, session}) {
-    //   if (token.sub && session.user) {
-    //     session.user.id = token.sub;
-    //   }
+      token.name = existingUser.name;
+      token.email = existingUser.email;
 
-    // }
+      return token;
+    }
   },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
