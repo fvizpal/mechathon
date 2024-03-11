@@ -1,78 +1,52 @@
 'use client'
 
 import { useModal } from "@/hooks/useModalStore"
-import { Dialog, DialogContent, DialogDescription,DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import {  Form, FormControl,  FormField,  FormItem,  FormLabel,  FormMessage} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogClose, DialogHeader,DialogFooter, DialogTitle, DialogTrigger } from "../ui/dialog";
 
-const formSchema = z.object({
-  name: z.string()
-});
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
+import { Button } from "@/components/ui/button"
 export const InviteModal = () => {
   const { isOpen, onClose, type } = useModal();
 
   const isModalOpen = isOpen && type === 'invite';
 
-  const handleClose = () => {
-    onClose();
-  }
-  
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: ""
-    }
-  });
-  const isLoading = form.formState.isSubmitting;
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-  }
   return (
-    <Dialog open>
-      <DialogContent className="bg-white text-black p-0 overflow-hidden">
-        <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">
-            Create your own community
-          </DialogTitle>
+    <Dialog open={isModalOpen} onOpenChange={() => onClose()}>
+      <DialogTrigger asChild>
+        <Button variant="outline">Share</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Share link</DialogTitle>
+          <DialogDescription>
+            People with the link can join this community
+          </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="space-y-8 px-6">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel
-                      className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                    >
-                      Server name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button >
-                Create  
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+        <div className="flex items-center space-x-2">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="link" className="sr-only">
+              Link
+            </Label>
+            <Input
+              id="link"
+              defaultValue="https://www.youtube.com"
+              readOnly
+            />
+          </div>
+          <Button type="submit" size="sm" className="px-3">
+            <span className="sr-only">Copy</span>
+            {/* <CopyIcon className="h-4 w-4" /> */}
+          </Button>
+        </div>
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
