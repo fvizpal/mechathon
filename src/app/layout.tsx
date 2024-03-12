@@ -23,20 +23,20 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    // <SessionProvider session={session}>
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ModalProvider />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-    // </SessionProvider>
+    <SessionProvider session={session}>
+      <html lang="en">
+        <body className={inter.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

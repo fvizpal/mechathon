@@ -34,18 +34,21 @@ export const {
       return true;
     },
     async session({ token, session }) {
+      console.log(token)
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
 
       if (session.user) {
         session.user.name = token.name;
-        session.user.email = token.email;
+        session.user.email = token.email as string;
       }
 
+      console.log(session)
       return session;
     },
     async jwt({ token }) {
+      console.log(token);
       if (!token.sub) return token;
 
       const existingUser = await db.user.findUnique({ where: { id: token.sub } });

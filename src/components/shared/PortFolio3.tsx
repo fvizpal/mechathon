@@ -9,7 +9,14 @@ const PortFolio3 = () => {
           <Image height={400} width={400} alt="hero" src="/assets/images/photo1.jpg" />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h1 className="text-gray-900 text-4xl title-font font-medium mb-5">Join and create your ideal community</h1>
-            <p className="leading-relaxed">"Join communities where you belong" allows users to create and join communities tailored to their passions and interests, be it photography, cooking, gaming, or any other pursuit. Users can start fresh groups or become part of existing ones, forging connections with like-minded individuals. This feature empowers users to curate spaces where they can share insights, learn new things, and foster meaningful relationships within a vibrant ecosystem of diverse interests and interactions.</p>
+            <p className="leading-relaxed">"Join communities where you belong"
+              allows users to create and join communities tailored to their
+              passions and interests, be it photography, cooking, gaming, or any
+              other pursuit. Users can start fresh groups or become part of existing
+              ones, forging connections with like-minded individuals. This feature empowers
+              users to curate spaces where they can share insights, learn new things,
+              and foster meaningful relationships within a vibrant ecosystem of diverse
+              interests and interactions.</p>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useModal } from "@/hooks/useModalStore"
-import { Dialog, DialogContent, DialogDescription, DialogClose, DialogHeader,DialogFooter, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogClose, DialogHeader, DialogFooter, DialogTitle, DialogTrigger } from "../ui/dialog";
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,9 +14,6 @@ export const InviteModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={() => onClose()}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Share link</DialogTitle>
