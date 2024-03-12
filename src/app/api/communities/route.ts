@@ -22,11 +22,13 @@ export async function POST(req: Request) {
         inviteCode: uuidv4(),
         groups: {
           create: [
+            // @ts-ignore
             { name: "general", userId: user.id }
           ]
         },
         members: {
           create: [
+            // @ts-ignore
             { userId: user.id, role: MemberRole.ADMIN }
           ]
         }
