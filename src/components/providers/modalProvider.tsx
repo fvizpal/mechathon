@@ -7,18 +7,22 @@ import { CreateGroupModal } from "../modals/CreateGroupModal"
 import { InviteModal } from "../modals/InviteModal"
 import { EditCommunityModal } from "../modals/EditCommunity"
 import { LeaveCommunityModal } from "../modals/LeaveCommunityModal"
+import { MemberModal } from "../modals/MemberModal"
+import { DeleteCommunityModal } from "../modals/DeleteCommunityModal"
+import { DeleteGroupModal } from "../modals/DeleteGroupModal"
+import { EditGroupModal } from "../modals/EditGroupModal"
 
 
 //   | "auth"   x 
 //   | "createCommunity"   x 
 //   | "invite" // with a link and copy button    x
 //   | "editCommunity"   x
-//   | "members" // renders members with name and email
+//   | "members" // renders members with name and email    x
 //   | "createGroup"     x 
 //   | "leaveCommunity" // confirm that you want to leave community   x 
-//   | "deleteCommunity" // confirm for deletion of community
-//   | "deleteGroups" // confirm the deletion of group
-//   | "editGroups" 
+//   | "deleteCommunity" // confirm for deletion of community       x 
+//   | "deleteGroups" // confirm the deletion of group          x 
+//   | "editGroups"          x
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -37,6 +41,10 @@ export const ModalProvider = () => {
       <InviteModal/>
       <EditCommunityModal/>
       <LeaveCommunityModal/>
+      <MemberModal/>
+      <DeleteCommunityModal/>
+      <DeleteGroupModal/>
+      <EditGroupModal/>
     </>
   )
 }

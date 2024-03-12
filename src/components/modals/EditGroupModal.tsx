@@ -1,6 +1,4 @@
-'use client'
-
-import { useModal } from "@/hooks/useModalStore"
+import { useModal } from "@/hooks/useModalStore";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
@@ -9,41 +7,43 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useState } from "react";
+
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Community name is required."
+    message: "Group name is required."
   })
 });
 
-
-export const EditCommunityModal = () => {
-  const { isOpen, onClose, type } = useModal();
+export const EditGroupModal = () => {
+  const { isOpen, onClose, type} = useModal();
   const [isKickingMember, setKickingMember] = useState(false);
-  const [isManagingGroups, setManagingGroups] = useState(false);
+  const [isManagingMembers, setManagingMembers] = useState(false);
 
-  const isModalOpen = isOpen && type === 'editCommunity';
+  const isModalOpen = isOpen && type === 'editGroups';
 
   const handleKickMember = () => {
-    // Add logic to kick a member
+    // Add logic to kick a member from the group
     // console.log(`Kicking member: ${data?.memberName}`);
     onClose();
   };
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: ""
-    }
-  });
-  const handleManageGroups = () => {
-    // Add logic to manage groups (add/remove)
-    // console.log(`Managing groups: ${data?.groups}`);
+
+  const handleManageMembers = () => {
+    // Add logic to manage group members (add/remove)
+    // console.log(`Managing members: ${data?.members}`);
     onClose();
   };
 
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+    //   name: data?.groupName || "" // Set default value to the existing group name
+    name : ""
+    }
+  });
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
-    // Add logic to update the community with the new values
-    
+    // Add logic to update the group with the new values
     onClose();
   };
 
@@ -53,7 +53,7 @@ export const EditCommunityModal = () => {
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">
-              Edit Community
+              Edit Group
             </DialogTitle>
           </DialogHeader>
           <Form {...form}>
@@ -67,7 +67,7 @@ export const EditCommunityModal = () => {
                       <FormLabel
                         className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                       >
-                        New community name
+                        New group name
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -86,8 +86,8 @@ export const EditCommunityModal = () => {
                 <Button onClick={() => setKickingMember(true)}>
                   Kick Member
                 </Button>
-                <Button onClick={() => setManagingGroups(true)}>
-                  Manage Groups
+                <Button onClick={() => setManagingMembers(true)}>
+                  Manage Members
                 </Button>
               </div>
 
@@ -108,17 +108,17 @@ export const EditCommunityModal = () => {
                 </div>
               )}
 
-              {isManagingGroups && (
+              {isManagingMembers && (
                 <div className="p-6">
                   <p className="text-center text-gray-700">
-                    Manage groups: {/* Display the input field for managing groups */}
+                    Manage members: {/* Display the input field for managing members */}
                   </p>
-                  {/* Implement input fields or other components for managing groups */}
+                  {/* Implement input fields or other components for managing members */}
                   <DialogFooter className="bg-gray-100 px-6 py-4">
-                    <Button onClick={handleManageGroups} className="mr-2">
+                    <Button onClick={handleManageMembers} className="mr-2">
                       Confirm
                     </Button>
-                    <Button onClick={() => setManagingGroups(false)}>
+                    <Button onClick={() => setManagingMembers(false)}>
                       Cancel
                     </Button>
                   </DialogFooter>

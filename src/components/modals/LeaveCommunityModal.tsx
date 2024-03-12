@@ -8,7 +8,7 @@ import { useState } from "react";
 export const LeaveCommunityModal = () => {
 const { isOpen, onClose, type } = useModal();
 //   const { isOpen, onClose, type, data } = useModal(); // Assuming you pass the community data to the modal
-  const [isConfirming, setConfirming] = useState(false);
+  const [isConfirming, setConfirming] = useState(true);
 
   const isModalOpen = isOpen && type === 'leaveCommunity';
 
@@ -51,16 +51,16 @@ const { isOpen, onClose, type } = useModal();
           <DialogFooter className="bg-gray-100 px-6 py-4">
             {isConfirming ? (
               <>
-                <Button onClick={handleCancel} className="mr-2">
-                  Cancel
+                <Button onClick={handleCancel} className="mr-2" variant="destructive">
+                Confirm
                 </Button>
-                <Button onClick={handleConfirm} >
-                  Confirm
+                <Button onClick={handleConfirm}  >
+                Cancel
                 </Button>
               </>
             ) : (
-              <Button onClick={showConfirmDialog} >
-                Leave Community
+              <Button onClick={showConfirmDialog} variant="destructive" >
+                bye bye
               </Button>
             )}
           </DialogFooter>
