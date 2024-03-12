@@ -1,6 +1,6 @@
-<h1 align="center">app Title</h1>
+<h1 align="center">BaatCheet</h1>
 <p align="center">
-some description of the app
+Pour your heart out
 </p>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
