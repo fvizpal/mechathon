@@ -1,13 +1,12 @@
-'use client'
 
 import { db } from "@/lib/database/db";
 import { redirect } from "next/navigation";
 import OnboardModal from "@/components/modals/OnboardModal";
-import { useSession } from "next-auth/react";
+import { auth } from "../../../auth";
 
 const OnboardPage = async () => {
-  const session = useSession();
-  const user = session?.data?.user;
+  const session = await auth()
+  const user = session?.user
 
   const community = await db.community.findFirst({
     where: {

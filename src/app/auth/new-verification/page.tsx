@@ -1,8 +1,11 @@
 import NewVerificationForm from "@/components/shared/NewVerificationForm";
 
 const NewVerificationPage = () => {
+
   return (
-    <NewVerificationForm />
+    <>
+      <NewVerificationForm />
+    </>
   );
 }
 
