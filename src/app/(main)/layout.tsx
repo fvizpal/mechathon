@@ -7,10 +7,10 @@ const MainLayout = async ({
 }) => {
   return (
     <div className="h-full">
-      <div className="h-full w-[72px]">
+      <div className="h-full flex-col fixed w-[250px] bg-slate-400">
         <NavigationSidebar />
       </div>
-      <main>
+      <main className="h-full">
         {children}
       </main>
     </div>

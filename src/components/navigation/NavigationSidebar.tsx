@@ -28,11 +28,11 @@ const NavigationSidebar = async () => {
   });
 
   return (
-    <div>
+    <div className='h-full flex flex-col items-center w-full py-4 space-y-4'>
       <NavAddCommunity />
-      <ScrollArea>
+      <ScrollArea className='flex-1 w-full'>
         {communities.map((community) => (
-          <div key={community.id}>
+          <div key={community.id} className='mb-4'>
             <NavigationItem
               id={community.id}
               name={community.name}
@@ -41,8 +41,10 @@ const NavigationSidebar = async () => {
           </div>
         ))}
       </ScrollArea>
-      <ModeToggle />
-      <UserButton />
+      <div className='pb-3 mt-auto flex flex-col items-center gap-y-4'>
+        <ModeToggle />
+        <UserButton />
+      </div>
     </div>
   )
 }

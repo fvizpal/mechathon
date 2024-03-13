@@ -23,10 +23,10 @@ import { FileUpload } from "../shared/FileUploader";
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Server name is required."
+    message: "Community name is required."
   }),
   imageUrl: z.string().min(1, {
-    message: "Server image is required."
+    message: "Community image is required."
   })
 });
 
@@ -81,7 +81,7 @@ const OnboardModal = () => {
                     <FormItem>
                       <FormControl>
                         <FileUpload
-                          endpoint="serverImage"
+                          endpoint="communityImage"
                           value={field.value}
                           onChange={field.onChange}
                         />
