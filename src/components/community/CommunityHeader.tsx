@@ -4,6 +4,7 @@ import { MemberRole } from "@prisma/client"
 import { DropdownMenu } from "../ui/dropdown-menu"
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { ChevronDown, LogOut, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react"
+import { useModal } from "@/hooks/useModalStore"
 
 
 interface CommunityHeaderProps{
@@ -16,7 +17,7 @@ export const CommunityHeader = (
         community,
         role
     }: CommunityHeaderProps) =>{
-
+        const { onOpen } = useModal();
         const isAdmin = role === MemberRole.ADMIN;
         const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
@@ -37,6 +38,7 @@ export const CommunityHeader = (
                     className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
                 >{isModerator && (
                     <DropdownMenuItem
+                      onClick={() => onOpen("invite", { community })}
                       className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
                     >
                       Invite People
@@ -45,14 +47,16 @@ export const CommunityHeader = (
                   )}
                   {isAdmin && (
                     <DropdownMenuItem
+                      onClick={() => onOpen("editCommunity", { community })}
                       className="px-3 py-2 text-sm cursor-pointer"
                     >
-                      Community Settings
+                      Edit Community
                       <Settings className="h-4 w-4 ml-auto" />
                     </DropdownMenuItem>
                   )}
                   {isAdmin && (
                     <DropdownMenuItem
+                      onClick={() => onOpen("members", { community })}
                       className="px-3 py-2 text-sm cursor-pointer"
                     >
                       Manage Members
@@ -61,6 +65,7 @@ export const CommunityHeader = (
                   )}
                   {isModerator && (
                     <DropdownMenuItem
+                       onClick={() => onOpen("createGroup", { community })}
                       className="px-3 py-2 text-sm cursor-pointer"
                     >
                       Create Groups
@@ -72,7 +77,8 @@ export const CommunityHeader = (
                   )}
                   {isAdmin && (
                     <DropdownMenuItem
-                      className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
+                    onClick={() => onOpen("deleteCommunity", { community })}
+                    className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
                     >
                       Delete Community
                       <Trash className="h-4 w-4 ml-auto" />
@@ -80,9 +86,10 @@ export const CommunityHeader = (
                   )}
                   {!isAdmin && (
                     <DropdownMenuItem
-                      className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
+                    onClick={() => onOpen("leaveCommunity", { community })}
+                    className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
                     >
-                      Leave group
+                      Leave Community
                       <LogOut className="h-4 w-4 ml-auto" />
                     </DropdownMenuItem>
                   )}
