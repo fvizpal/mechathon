@@ -1,39 +1,85 @@
 'use client'
 
+import { useEffect } from "react";
 import { useModal } from "@/hooks/useModalStore"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import * as z from "zod";
+import qs from "query-string"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
+import { useParams, useRouter } from "next/navigation";
+import axios from "axios";
+import { GroupType } from "@prisma/client";
+
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Group name is required."
-  })
+  }).refine(
+    name => name !== 'general',
+    { message: "Group name cannot be general" }
+  ),
+  type: z.nativeEnum(GroupType),
 });
 
 export const CreateGroupModal = () => {
-  const { isOpen, onClose, type } = useModal();
+  const router = useRouter();
+  const params = useParams();
+
+  const { isOpen, onClose, type, data } = useModal();
+  const groupType = data.groupType;
 
   const isModalOpen = isOpen && type === 'createGroup';
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: ""
+      name: "",
+      type: groupType || GroupType.TEXT,
     }
   });
+
+  useEffect(() => {
+    if (groupType) {
+      form.setValue("type", groupType);
+    } else {
+      form.setValue("type", GroupType.TEXT);
+    }
+  }, [groupType, form]);
+
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    try {
+      const url = qs.stringifyUrl({
+        url: "/api/groups",
+        query: {
+          communityId: params?.communityId,
+        }
+      });
+      await axios.post(url, values);
+
+      form.reset();
+      router.refresh();
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  }
+
   return (
     <>
-      <Dialog open={isModalOpen} onOpenChange={() => onClose()}>
+      <Dialog open={isModalOpen} onOpenChange={handleClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">
@@ -64,9 +110,37 @@ export const CreateGroupModal = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Group Type</FormLabel>
+                      <Select
+                        disabled={isLoading}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select groupd type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.values(GroupType).map((type) => (
+                            <SelectItem
+                              key={type}
+                              value={type}
+                            >{type}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
               </div>
               <DialogFooter className="bg-gray-100 px-6 py-4">
-                <Button >
+                <Button disabled={isLoading}>
                   Create
                 </Button>
               </DialogFooter>

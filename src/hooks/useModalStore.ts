@@ -1,7 +1,8 @@
+import { Community, Group, GroupType } from "@prisma/client"
 import { create } from "zustand"
 
 export type ModalType =
-  | "auth"  
+  | "auth"
   | "createCommunity"
   | "invite"
   | "editCommunity"
@@ -13,8 +14,15 @@ export type ModalType =
   | "editGroups"
 
 
+interface ModalData {
+  community?: Community,
+  group?: Group,
+  groupType?: GroupType,
+}
+
 interface ModalStore {
   type: ModalType | null
+  data: ModalData
   isOpen: boolean
   onOpen: (type: ModalType) => void
   onClose: () => void
@@ -22,6 +30,7 @@ interface ModalStore {
 
 export const useModal = create<ModalStore>((set) => ({
   type: null,
+  data: {},
   isOpen: false,
   onOpen: (type) => set({ isOpen: true, type }),
   onClose: () => set({ type: null, isOpen: false })
