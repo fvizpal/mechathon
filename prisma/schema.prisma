@@ -6,10 +6,9 @@ datasource db {
   // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-// npx prisma generate
-// npx prisma db push
-
-//npx prisma migrate reset
+// npx prisma generate // to generate prisma models
+// npx prisma db push /// to push datatables to db
+//npx prisma migrate reset // to reset the db
 
 generator client {
   provider = "prisma-client-js"
@@ -96,11 +95,11 @@ model Member {
   communityId String
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
 
-  // messages Message[]
-  // directMessages DirectMessage[]
+  messages       Message[]
+  directMessages DirectMessage[]
 
-  // conversationsInitiated Conversation[] @relation("MemberOne")
-  // conversationsReceived  Conversation[] @relation("MemberTwo")
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived  Conversation[] @relation("MemberTwo")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,6 +112,7 @@ enum GroupType {
   TEXT
   AUDIO
   VIDEO
+  DRAW
 }
 
 model Group {
@@ -120,17 +120,75 @@ model Group {
   name String
   type GroupType @default(TEXT)
 
-  userId  String
-  profile User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   communityId String
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
 
-  // messages Message[]
+  messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@index([communityId])
+}
+
+model Message {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  memberId String // who will send this message
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  groupId String // the group this message was sent on
+  groups  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  // TODO : deletion\
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([groupId])
+  @@index([memberId])
+}
+
+// For one on one Convos
+model Conversation {
+  id String @id @default(uuid())
+
+  memberOneId String // the initiator
+  memberOne   Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+
+  memberTwoId String // the receiver
+  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+
+  directMessages DirectMessage[]
+
+  @@unique([memberOneId, memberTwoId])
+  @@index([memberOneId])
+}
+
+model DirectMessage {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  // the member who created this message
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  // the conversation this message is part of
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  // TODO DELTE
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([memberId])
+  @@index([conversationId])
 }

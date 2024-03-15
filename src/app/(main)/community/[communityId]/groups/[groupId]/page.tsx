@@ -44,7 +44,12 @@ const GroupIdPage = async (
       {group.type === "TEXT" && (
         <>
           {/* TODO: TEXT CHANNEL COMPONENTS  */}
-          <ChatInput />
+          <ChatInput
+            apiUrl='api/socket/messages'
+            name={group.name}
+            query={{ communityId: group.communityId, groupId: group.id }}
+            type='group'
+          />
         </>
       )}
       {group.type === "AUDIO" && (

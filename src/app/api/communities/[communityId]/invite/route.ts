@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "../../../../../../auth";
+import { db } from "@/lib/database/db";
+import { v4 as uuidv4 } from "uuid";
 
 
 export async function PATCH(req: Request, { params }: { params: { communityId: string } }) {
@@ -11,7 +13,17 @@ export async function PATCH(req: Request, { params }: { params: { communityId: s
 
     if (!params.communityId) return new NextResponse("CommunityId missing", { status: 400 });
 
+    const community = await db.community.update({
+      where: {
+        id: params.communityId,
+        userId: user.id,
+      },
+      data: {
+        inviteCode: uuidv4(),
+      }
+    })
 
+    return NextResponse.json(community);
   } catch (error) {
     console.log("[COMMUNITY_INVITE]", error);
     return new NextResponse("Internal Error", { status: 500 });

@@ -6,12 +6,24 @@ import * as z from "zod"
 import { Form, FormControl, FormField, FormItem } from "../ui/form"
 import { Input } from "../ui/input"
 import { Paperclip } from "lucide-react"
+import qs from "query-string"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import { useModal } from "@/hooks/useModalStore"
 
 const ChatInputSchema = z.object({
   content: z.string().min(1),
 })
 
-const ChatInput = () => {
+interface ChatInputProps {
+  apiUrl: string
+  query: Record<string, any>
+  name: string
+  type: "conversation" | "group"
+}
+const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
+  const { onOpen } = useModal();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof ChatInputSchema>>({
     resolver: zodResolver(ChatInputSchema),
@@ -22,8 +34,20 @@ const ChatInput = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: z.infer<typeof ChatInputSchema>) => {
+    try {
+      const url = qs.stringifyUrl({
+        url: apiUrl,
+        query
+      });
 
+      await axios.post(url, values);
+
+      form.reset();
+      router.refresh();
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -38,6 +62,7 @@ const ChatInput = () => {
                 <div className=" relative p-4 pb-6">
                   <button
                     className="absolute flex items-center justify-center top-6 rounded-full "
+                    onClick={() => onOpen("messageFile", { apiUrl, query })}
                   >
                     <Paperclip />
                   </button>
