@@ -18,6 +18,9 @@ import { LoginSchema } from '@/schemas';
 import { useState, useTransition } from 'react';
 import { login } from '@/lib/actions/login';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { FormError } from './FormError';
+import { FormSuccess } from './FormSuccess';
 
 const LoginForm = ({ setIsLogin }: {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -79,11 +82,25 @@ const LoginForm = ({ setIsLogin }: {
               <FormControl>
                 <Input placeholder='Enter your password' {...field} />
               </FormControl>
+              <Button
+                size="sm"
+                variant="link"
+                asChild
+                className="px-0 font-normal"
+              >
+                <Link href="/auth/reset">
+                  Forgot password?
+                </Link>
+              </Button>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button disabled={isPending} type="submit">Submit</Button>
+        <div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button disabled={isPending} type="submit">Submit</Button>
+        </div>
       </form>
       <div onClick={() => setIsLogin(false)} className=' underline'>
         Are you new here? SignUp...

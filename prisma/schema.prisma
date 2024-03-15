@@ -61,6 +61,15 @@ model VerificationToken {
   @@unique([email, token])
 }
 
+model PasswordResetToken {
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
 model Community {
   id         String @id @default(uuid())
   name       String

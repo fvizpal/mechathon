@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input"
 import { RegisterSchema } from '@/schemas';
 import { useState, useTransition } from 'react';
 import { register } from '@/lib/actions/register';
+import { FormError } from './FormError';
+import { FormSuccess } from './FormSuccess';
 
 const RegisterForm = ({ setIsLogin }: {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>
@@ -92,7 +94,11 @@ const RegisterForm = ({ setIsLogin }: {
             </FormItem>
           )}
         />
-        <Button disabled={isPending} type="submit">Submit</Button>
+        <div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button disabled={isPending} type="submit">Submit</Button>
+        </div>
       </form>
       {/* TODO: ADD SUCCESS AND ERROR COMPONENETS  */}
       <div onClick={() => setIsLogin(true)} className=' underline'>
