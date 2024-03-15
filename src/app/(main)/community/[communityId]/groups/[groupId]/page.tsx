@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/database/db';
 import ChatHeader from '@/components/chat/ChatHeader';
 import ChatInput from '@/components/chat/ChatInput';
+import ChatMessages from '@/components/chat/ChatMessages';
 
 const GroupIdPage = async (
   { params }:
@@ -44,6 +45,7 @@ const GroupIdPage = async (
       {group.type === "TEXT" && (
         <>
           {/* TODO: TEXT CHANNEL COMPONENTS  */}
+          <ChatMessages />
           <ChatInput
             apiUrl='api/socket/messages'
             name={group.name}

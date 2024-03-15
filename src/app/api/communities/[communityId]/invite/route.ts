@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "../../../../../../auth";
 import { db } from "@/lib/database/db";
-import { profile } from "console";
-
 import { v4 } from "uuid";
+
 export async function PATCH(req: Request, { params }: { params: { communityId: string } }) {
   try {
     const session = await auth()
@@ -22,6 +21,7 @@ export async function PATCH(req: Request, { params }: { params: { communityId: s
         inviteCode: v4(),
       },
     });
+
     return NextResponse.json(community);
   } catch (error) {
     console.log("[COMMUNITY_INVITE]", error);

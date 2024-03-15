@@ -8,32 +8,50 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { FileUpload } from "../shared/FileUploader";
+
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Community name is required."
+  }),
+  imageUrl: z.string().min(1, {
+    message: "Community image is required."
   })
 });
 
 
 export const EditCommunityModal = () => {
-  const { isOpen, onClose, type } = useModal();
-  const [isKickingMember, setKickingMember] = useState(false);
-  const [isManagingGroups, setManagingGroups] = useState(false);
+  const { isOpen, onClose, type, data } = useModal();
+  const community = data.community;
 
+  const router = useRouter();
   const isModalOpen = isOpen && type === 'editCommunity';
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      imageUrl: "",
+    }
+  });
+
+  useEffect(() => {
+    if (community) {
+      form.setValue("name", community.name);
+      form.setValue("imageUrl", community.imageUrl);
+    }
+  }, [community, form])
+
+  const isLoading = form.formState.isSubmitting;
 
   const handleKickMember = () => {
     // Add logic to kick a member
     // console.log(`Kicking member: ${data?.memberName}`);
     onClose();
   };
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: ""
-    }
-  });
   const handleManageGroups = () => {
     // Add logic to manage groups (add/remove)
     // console.log(`Managing groups: ${data?.groups}`);
@@ -41,15 +59,20 @@ export const EditCommunityModal = () => {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    // Add logic to update the community with the new values
-    
-    onClose();
+    try {
+      await axios.patch(`/api/communities/${community?.id}`, values);
+
+      form.reset();
+      router.refresh();
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
-      <Dialog open={isModalOpen} onOpenChange={() => onClose()}>
+      <Dialog open={isModalOpen} onOpenChange={() => { form.reset(); onClose() }}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">
@@ -59,6 +82,24 @@ export const EditCommunityModal = () => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="space-y-8 px-6">
+                <div className="flex items-center justify-center text-center">
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FileUpload
+                            endpoint="communityImage"
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   control={form.control}
                   name="name"
@@ -82,16 +123,7 @@ export const EditCommunityModal = () => {
                 />
               </div>
 
-              <div className="flex space-x-4 px-6">
-                <Button onClick={() => setKickingMember(true)}>
-                  Kick Member
-                </Button>
-                <Button onClick={() => setManagingGroups(true)}>
-                  Manage Groups
-                </Button>
-              </div>
-
-              {/* Confirmation dialogs for additional actions */}
+              {/* Confirmation dialogs for additional actions
               {isKickingMember && (
                 <div className="p-6">
                   <p className="text-center text-gray-700">
@@ -112,9 +144,9 @@ export const EditCommunityModal = () => {
                 <div className="p-6">
                   <p className="text-center text-gray-700">
                     Manage groups: {/* Display the input field for managing groups */}
-                  </p>
-                  {/* Implement input fields or other components for managing groups */}
-                  <DialogFooter className="bg-gray-100 px-6 py-4">
+              {/* </p> */}
+              {/* Implement input fields or other components for managing groups */}
+              {/* <DialogFooter className="bg-gray-100 px-6 py-4">
                     <Button onClick={handleManageGroups} className="mr-2">
                       Confirm
                     </Button>
@@ -122,11 +154,11 @@ export const EditCommunityModal = () => {
                       Cancel
                     </Button>
                   </DialogFooter>
-                </div>
-              )}
+                </div> */}
+
 
               <DialogFooter className="bg-gray-100 px-6 py-4">
-                <Button>
+                <Button disabled={isLoading} type="submit">
                   Save Changes
                 </Button>
               </DialogFooter>

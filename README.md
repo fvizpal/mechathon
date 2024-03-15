@@ -44,3 +44,33 @@ src
 ├───hooks
 └───lib
 ```
+## TODOs
+in ui:
+  Update landing page
+    set all formating correct
+    put in nav links of about and others
+  
+  auth
+    forgot - reset password
+
+    user settings
+      change password 
+      profile 
+
+  onbaord 
+    list of already present public community communities
+    
+  community
+    manage members
+     role based functionality
+     kick block change role
+    listing groups
+
+  Video Audio call rooms
+
+  scribble
+    tollbar 
+    canvas area
+
+  group header
+    

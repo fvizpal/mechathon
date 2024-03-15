@@ -3,20 +3,34 @@ import { useModal } from "@/hooks/useModalStore";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export const DeleteCommunityModal = () => {
-  const { isOpen, onClose, type } = useModal(); // Assuming you pass the community data to the modal
+  const router = useRouter();
+
+  const { isOpen, onClose, type, data } = useModal(); // Assuming you pass the community data to the modal
+  const community = data.community
 
   const isModalOpen = isOpen && type === 'deleteCommunity';
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const [isConfirming, setConfirming] = useState(false);
 
-  const handleDelete = () => {
-    if (isConfirming) {
-      // Add logic to handle deleting the community
-      // console.log(`Deleting community: ${data?.communityName}`);
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      await axios.delete(`/api/communities/${community?.id}`);
+
       onClose();
-    } else {
-      setConfirming(true);
+      router.refresh();
+      router.push("/onboard");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,7 +55,7 @@ export const DeleteCommunityModal = () => {
             {isConfirming ? (
               <p className="text-center text-gray-700">
                 Are you sure you want to delete the community
-                 {/* "{data?.communityName}"? */}
+                "{data?.community?.name}"?
               </p>
             ) : (
               <p className="text-center text-gray-700">
@@ -50,12 +64,21 @@ export const DeleteCommunityModal = () => {
             )}
           </div>
           <DialogFooter className="bg-gray-100 px-6 py-4">
-            <Button onClick={handleCancel} className="mr-2" >
-              {isConfirming ? 'Cancel' : 'Back'}
-            </Button>
-            <Button onClick={handleDelete} variant={isConfirming ? 'destructive' : 'default'}>
-              {isConfirming ? 'Delete' : 'Confirm'}
-            </Button>
+            <div className="flex items-center justify-between w-full">
+              <Button
+                disabled={isLoading}
+                onClick={onClose}
+                variant="ghost"
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={isLoading}
+                onClick={handleDelete}
+              >
+                Confirm
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>

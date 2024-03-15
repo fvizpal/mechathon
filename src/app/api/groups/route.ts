@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       return new NextResponse("Name cannot be 'general'", { status: 400 });
     }
 
-    const community = await db.community.create({
+    const community = await db.community.update({
       where: {
         id: communityId,
         members: {
@@ -40,6 +40,7 @@ export async function POST(req: Request) {
       },
       data: {
         groups: {
+          //@ts-ignore
           create: {
             userId: user.id,
             name,
