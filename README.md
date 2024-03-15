@@ -49,19 +49,18 @@ in ui:
   Update landing page
     set all formating correct
     put in nav links of about and others
-  
-  auth
-    forgot - reset password
 
-    user settings
-      change password 
-      profile 
+  user settings
+    . change password 
+    . profile 
 
   onbaord 
-    list of already present public community communities
+    . list of already present public communities
     
   community
+
     manage members
+
      role based functionality
      kick block change role
     listing groups
@@ -73,4 +72,6 @@ in ui:
     canvas area
 
   group header
-    
+    chat messages
+
+    fetch query tsq
