@@ -5,6 +5,7 @@ import { db } from '@/lib/database/db';
 import ChatHeader from '@/components/chat/ChatHeader';
 import ChatInput from '@/components/chat/ChatInput';
 import ChatMessages from '@/components/chat/ChatMessages';
+import DrawPage from '@/components/draw/DrawPage';
 
 const GroupIdPage = async (
   { params }:
@@ -64,11 +65,11 @@ const GroupIdPage = async (
           {/* TODO: VIDEO CHANNEL COMPONENTS  */}
         </>
       )}
-      {/* {group.type === "DRAW" && ( */}
-      <>
-        {/* TODO: VIDEO CHANNEL COMPONENTS  */}
-      </>
-      {/* )} */}
+      {group.type === "DRAW" && (
+        <>
+          <DrawPage />
+        </>
+      )}
     </div>
   )
 }
