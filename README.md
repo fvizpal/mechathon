@@ -44,20 +44,22 @@ src
 ├───hooks
 └───lib
 ```
+
 ## TODOs
+
 in ui:
-  Update landing page
-    set all formating correct
-    put in nav links of about and others
+Update landing page
+set all formating correct
+put in nav links of about and others
 
-  user settings
-    . change password 
-    . profile 
+user settings
+. change password
+. profile
 
-  onbaord 
-    . list of already present public communities
-    
-  community
+onbaord
+. list of already present public communities
+
+community
 
     manage members
 
@@ -65,13 +67,15 @@ in ui:
      kick block change role
     listing groups
 
-  Video Audio call rooms
+Video Audio call rooms
 
-  scribble
-    tollbar 
-    canvas area
+scribble
+tollbar
+canvas area
 
-  group header
-    chat messages
+group header
+chat messages
 
     fetch query tsq
+
+    checking 123
