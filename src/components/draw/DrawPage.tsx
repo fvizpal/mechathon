@@ -68,7 +68,8 @@ const page: FC<pageProps> = ({ }) => {
         <button
           type='button'
           className='p-2 rounded-md border border-black'
-          onClick={() => socket.emit('clear')}>
+          onClick={() => socket.emit('clear')}
+        >
           Clear canvas
         </button>
       </div>
