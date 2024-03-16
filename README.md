@@ -77,5 +77,3 @@ group header
 chat messages
 
     fetch query tsq
-
-    checking 123
