@@ -11,6 +11,7 @@ import { MemberModal } from "../modals/MemberModal"
 import { DeleteCommunityModal } from "../modals/DeleteCommunityModal"
 import { DeleteGroupModal } from "../modals/DeleteGroupModal"
 import { EditGroupModal } from "../modals/EditGroupModal"
+import {UserSettings} from '../modals/UserSettings'
 
 
 //   | "auth"   x 
@@ -45,6 +46,7 @@ export const ModalProvider = () => {
       <DeleteCommunityModal/>
       <DeleteGroupModal/>
       <EditGroupModal/>
+      <UserSettings/>
     </>
   )
 }

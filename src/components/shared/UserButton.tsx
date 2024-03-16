@@ -1,6 +1,7 @@
 "use client";
 
-import { UserRound, LogOut } from "lucide-react";
+import { useModal } from "@/hooks/useModalStore"
+import { UserRound, LogOut, Settings } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -20,6 +21,8 @@ export const UserButton = () => {
   const session = useSession();
   const user = session.data?.user
 
+  const { onOpen } = useModal();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -37,6 +40,11 @@ export const UserButton = () => {
             Logout
           </DropdownMenuItem>
         </LogoutButton>
+
+        <DropdownMenuItem onClick={()=> onOpen("usersettings")}>
+            <Settings className="h-4 w-4 mr-2"/>
+            Settings
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
