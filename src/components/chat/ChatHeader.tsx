@@ -6,8 +6,8 @@ const ChatHeader = ({ name, communityId, type }: {
   type: string
 }) => {
   return (
-    <div className=' flex items-center h-12 border-b-2'>
-      <p className="font-semibold text-black dark:text-white">
+    <div className=' flex items-center h-12 border-b-2 mx-5'>
+      <p className=" capitalize font-semibold text-black dark:text-white">
         {name}
       </p>
     </div>

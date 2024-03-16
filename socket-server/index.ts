@@ -21,20 +21,24 @@ type DrawLine = {
 }
 
 io.on('connection', (socket: typeof Socket) => {
-  socket.on('client-ready', () => {
-    socket.broadcast.emit('get-canvas-state')
+  socket.on('join-room', (socketKey: string) => {
+    socket.join(socketKey);
+  })
+  socket.on('client-ready', (socketKey) => {
+    socket.to(socketKey).emit('get-canvas-state')
   })
 
-  socket.on('canvas-state', (state: string) => {
+
+  socket.on('canvas-state', (state: string, socketKey) => {
     console.log('received canvas state')
-    socket.broadcast.emit('canvas-state-from-server', state)
+    socket.to(socketKey).emit('canvas-state-from-server', state)
   })
 
-  socket.on('draw-line', ({ prevPoint, currentPoint, color }: DrawLine) => {
-    socket.broadcast.emit('draw-line', { prevPoint, currentPoint, color })
+  socket.on('draw-line', ({ prevPoint, currentPoint, color }: DrawLine, socketKey) => {
+    socket.to(socketKey).emit('draw-line', { prevPoint, currentPoint, color })
   })
 
-  socket.on('clear', () => io.emit('clear'))
+  socket.on('clear', (socketKey) => io.to(socketKey).emit('clear'))
 })
 
 server.listen(3003, () => {

@@ -6,13 +6,20 @@ import { CommunityHeader } from './CommunityHeader';
 import { ScrollArea } from '../ui/scroll-area';
 import CommunitySidebarSearch from './CommunitySidebarSearch';
 
-import { Text, Video, AudioLines, Palette } from 'lucide-react';
+import { Text, Video, AudioLines, Palette, ShieldCheck, ShieldAlert } from 'lucide-react';
 import { Separator } from '../ui/separator';
 import { SidebarMember } from './SidebarMember';
+import { CommunitySection } from './CommunitySection';
+import { GroupType, MemberRole } from '@prisma/client';
+import { group } from 'console';
+import { CommunityGroup } from './CommunityGroup';
 
-interface CommunitySidebarProps {
-  communityId: string;
+const roleIconMap = {
+  [MemberRole.GUEST]: null,
+  [MemberRole.MODERATOR]: <ShieldCheck className="h-4 w-4 mr-2 text-indigo-500" />,
+  [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 mr-2 text-rose-500" />
 }
+
 
 const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
   const session = await auth();
@@ -51,7 +58,7 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
   const audioGroups = community.groups.filter((group) => group.type === "AUDIO");
   const videoGroups = community.groups.filter((group) => group.type === "VIDEO");
   const drawGroups = community.groups.filter((group) => group.type === "DRAW");
-  const members = community?.members.filter((member) => member.communityId !== community.id)
+  const members = community?.members.filter((member) => member.userId !== user.id)
   const role = community.members.find((member) => member.communityId === community.id)?.role;
 
 
@@ -109,12 +116,110 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
                   }
                 ))
               },
+              {
+                label: "Members",
+                type: "member",
+                //@ts-expect-error
+                data: members?.map((member) => (
+                  {
+                    id: member.id,
+                    name: member.user.name,
+                    icon: roleIconMap[member.role],
+                  }
+                ))
+              },
             ]}
           />
         </div>
         <Separator />
+        {!!textGroups?.length && (
+          <div className="mb-2">
+            <CommunitySection
+              sectionType="groups"
+              groupType={GroupType.TEXT}
+              role={role}
+              label="Chat Groups"
+            />
+            <div className="space-y-[2px]">
+              {textGroups.map((group) => (
+                <CommunityGroup
+                  key={group.id}
+                  group={group}
+                  role={role}
+                  community={community}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!audioGroups?.length && (
+          <div className="mb-2">
+            <CommunitySection
+              sectionType="groups"
+              groupType={GroupType.AUDIO}
+              role={role}
+              label="Voice Groups"
+            />
+            <div className="space-y-[2px]">
+              {audioGroups.map((group) => (
+                <CommunityGroup
+                  key={group.id}
+                  group={group}
+                  role={role}
+                  community={community}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!videoGroups?.length && (
+          <div className="mb-2">
+            <CommunitySection
+              sectionType="groups"
+              groupType={GroupType.VIDEO}
+              role={role}
+              label="Video Groups"
+            />
+            <div className="space-y-[2px]">
+              {videoGroups.map((group) => (
+                <CommunityGroup
+                  key={group.id}
+                  group={group}
+                  role={role}
+                  community={community}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!drawGroups?.length && (
+          <div className="mb-2">
+            <CommunitySection
+              sectionType="groups"
+              groupType={GroupType.DRAW}
+              role={role}
+              label="Scribble Groups"
+            />
+            <div className="space-y-[2px]">
+              {drawGroups.map((group) => (
+                <CommunityGroup
+                  key={group.id}
+                  group={group}
+                  role={role}
+                  community={community}
+                />
+              ))}
+            </div>
+          </div>
+        )}
         {!!members?.length && (
           <div className="mb-2">
+            <CommunitySection
+              sectionType="members"
+              role={role}
+              label="Members"
+              community={community}
+            />
             <div className="space-y-[2px]">
               {members.map((member) => (
                 <SidebarMember

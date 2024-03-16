@@ -3,6 +3,7 @@
 import { useDraw } from '@/hooks/useDraw'
 import { drawLine } from '@/lib/utils'
 import { Draw } from '@/types'
+import { useParams } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
 import { ChromePicker } from 'react-color'
 
@@ -18,18 +19,23 @@ type DrawLineProps = {
 }
 
 const page: FC<pageProps> = ({ }) => {
+  const params = useParams();
+  const socketKey = `draw:${params?.groupId}`;
+
   const [color, setColor] = useState<string>('#000')
   const { canvasRef, onMouseDown, clear } = useDraw(createLine)
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
 
-    socket.emit('client-ready')
+    socket.emit('join-room', socketKey);
+
+    socket.emit('client-ready', (socketKey));
 
     socket.on('get-canvas-state', () => {
       if (!canvasRef.current?.toDataURL()) return
       console.log('sending canvas state')
-      socket.emit('canvas-state', canvasRef.current.toDataURL())
+      socket.emit('canvas-state', (canvasRef.current.toDataURL(), socketKey))
     })
 
     socket.on('canvas-state-from-server', (state: string) => {
@@ -41,12 +47,12 @@ const page: FC<pageProps> = ({ }) => {
       }
     })
 
-    socket.on('draw-line', ({ prevPoint, currentPoint, color }: DrawLineProps) => {
+    socket.on('draw-line', ({ prevPoint, currentPoint, color }: DrawLineProps, socketKey) => {
       if (!ctx) return console.log('no ctx here')
       drawLine({ prevPoint, currentPoint, ctx, color })
     })
 
-    socket.on('clear', clear)
+    socket.on('clear', (clear))
 
     return () => {
       socket.off('draw-line')
@@ -62,24 +68,24 @@ const page: FC<pageProps> = ({ }) => {
   }
 
   return (
-    <div className='w-screen h-screen bg-white flex justify-center items-center'>
+    <div className='w-full h-full bg-slate-100 my-4 mx-4 flex'>
+      <canvas
+        ref={canvasRef}
+        onMouseDown={onMouseDown}
+        width={350}
+        height={350}
+        className='border border-black bg-white mx-2 my-2 w-full rounded-md'
+      />
       <div className='flex flex-col gap-10 pr-10'>
         <ChromePicker color={color} onChange={(e) => setColor(e.hex)} />
         <button
           type='button'
           className='p-2 rounded-md border border-black'
-          onClick={() => socket.emit('clear')}
+          onClick={() => socket.emit('clear', socketKey)}
         >
           Clear canvas
         </button>
       </div>
-      <canvas
-        ref={canvasRef}
-        onMouseDown={onMouseDown}
-        width={750}
-        height={750}
-        className='border border-black rounded-md'
-      />
     </div>
   )
 }

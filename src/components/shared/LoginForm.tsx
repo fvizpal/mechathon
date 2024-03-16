@@ -50,11 +50,13 @@ const LoginForm = ({ setIsLogin }: {
             form.reset();
             setError(data.error)
           }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
         }).catch(() => setError("Something went wrong"));
     })
-    // TODO: redirect
-    console.log("Login Success");
-    router.push('/onboard')
   };
 
   return (

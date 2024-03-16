@@ -26,9 +26,9 @@ const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
           className="rounded-full object-contain p-1"
         />
         <span className="mx-2 w-full h-full font-bold p-3">{name}</span>
-        <button className="flex items-center justify-center m-3 ">
+        {/* <button className="flex items-center justify-center m-3 ">
           <ChevronDown />
-        </button>
+        </button> */}
       </button>
     </>
   )

@@ -2,9 +2,8 @@
 
 import { CommunityWithMembersWithUser } from "@/types"
 import { MemberRole } from "@prisma/client"
-import { DropdownMenu } from "../ui/dropdown-menu"
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { ChevronDown, LogOut, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { LogOut, Menu, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react"
 import { useModal } from "@/hooks/useModalStore"
 
 
@@ -29,29 +28,30 @@ export const CommunityHeader = ({
         asChild
       >
         <button
-          className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-cyan dark:hover:bg-yellow transition"
+          className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition"
         >
           {community.name}
-          <ChevronDown className="h-5 w-5 ml-auto" />
+          <Menu className="h-5 w-5 ml-auto" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
-      >{isModerator && (
-        <DropdownMenuItem
-          onClick={() => onOpen("invite", { community })}
-          className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
-        >
-          Invite People
-          <UserPlus className="h-4 w-4 ml-auto" />
-        </DropdownMenuItem>
-      )}
+        className=" w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
+      >
+        {isModerator && (
+          <DropdownMenuItem
+            onClick={() => onOpen("invite", { community })}
+            className="text-emerald-500 dark:text-emerald-600 px-3 py-2 text-sm cursor-pointer"
+          >
+            Invite People
+            <UserPlus className="h-4 w-4 ml-auto" />
+          </DropdownMenuItem>
+        )}
         {isAdmin && (
           <DropdownMenuItem
             onClick={() => onOpen("editCommunity", { community })}
             className="px-3 py-2 text-sm cursor-pointer"
           >
-            Edit Community
+            Community Settings
             <Settings className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
@@ -66,10 +66,10 @@ export const CommunityHeader = ({
         )}
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen("createGroup", { community })}
+            onClick={() => onOpen("createGroup")}
             className="px-3 py-2 text-sm cursor-pointer"
           >
-            Create Groups
+            Create Group
             <PlusCircle className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}

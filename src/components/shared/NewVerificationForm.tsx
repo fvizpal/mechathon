@@ -1,6 +1,10 @@
+'use client'
+
 import { newVerification } from '@/lib/actions/newVerification';
 import { useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react'
+import { FormSuccess } from './FormSuccess';
+import { FormError } from './FormError';
 
 const NewVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();
@@ -33,9 +37,17 @@ const NewVerificationForm = () => {
   }, [onSubmit]);
 
   return (
-    <div className="flex items-center w-full justify-center">
-      Confirming Your email...
-    </div>
+    <>
+      <div className="flex items-center w-full justify-center">
+        {!success && !error && (
+          <p>Confirming...</p>
+        )}
+        <FormSuccess message={success} />
+        {!success && (
+          <FormError message={error} />
+        )}
+      </div>
+    </>
   )
 }
 

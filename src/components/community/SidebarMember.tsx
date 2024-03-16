@@ -31,6 +31,7 @@ export const SidebarMember = ({
 
   return (
     <button
+      className=" flex items-center gap-x-2 w-full group px-2 py-2 rounded-md"
       onClick={onClick}
     >
       <UserAvatar

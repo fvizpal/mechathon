@@ -22,7 +22,7 @@ export const newVerification = async (token: string) => {
   });
 
   if (!existingUser) {
-    return { error: "Email does not exist!" };
+    return { error: "User does not exist!" };
   }
 
   await db.user.update({
