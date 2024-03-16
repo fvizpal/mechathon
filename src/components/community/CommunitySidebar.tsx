@@ -1,10 +1,10 @@
-import React from 'react'
-import { auth } from '../../../auth'
-import { redirect } from 'next/navigation';
-import { db } from '@/lib/database/db';
-import { CommunityHeader } from './CommunityHeader';
-import { ScrollArea } from '../ui/scroll-area';
-import CommunitySidebarSearch from './CommunitySidebarSearch';
+import React from "react";
+import { auth } from "../../../auth";
+import { redirect } from "next/navigation";
+import { db } from "@/lib/database/db";
+import { CommunityHeader } from "./CommunityHeader";
+import { ScrollArea } from "../ui/scroll-area";
+import CommunitySidebarSearch from "./CommunitySidebarSearch";
 
 import { Text, Video, AudioLines, Palette, ShieldCheck, ShieldAlert } from 'lucide-react';
 import { Separator } from '../ui/separator';
@@ -37,7 +37,7 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
       groups: {
         orderBy: {
           createdAt: "asc",
-        }
+        },
       },
       members: {
         include: {
@@ -45,9 +45,9 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
         },
         orderBy: {
           role: "asc",
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   if (!community) {
@@ -55,8 +55,12 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
   }
 
   const textGroups = community.groups.filter((group) => group.type === "TEXT");
-  const audioGroups = community.groups.filter((group) => group.type === "AUDIO");
-  const videoGroups = community.groups.filter((group) => group.type === "VIDEO");
+  const audioGroups = community.groups.filter(
+    (group) => group.type === "AUDIO"
+  );
+  const videoGroups = community.groups.filter(
+    (group) => group.type === "VIDEO"
+  );
   const drawGroups = community.groups.filter((group) => group.type === "DRAW");
   const members = community?.members.filter((member) => member.userId !== user.id)
   const role = community.members.find((member) => member.communityId === community.id)?.role;
@@ -64,46 +68,37 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
 
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-cyan bg-yellow">
-      <CommunityHeader
-        community={community}
-        role={role}
-      />
+      <CommunityHeader community={community} role={role} />
       <ScrollArea>
-        <div className='mt-2'>
+        <div className="mt-2">
           <CommunitySidebarSearch
             data={[
               {
                 label: "Text Groups",
                 type: "group",
-                data: textGroups.map((group) => (
-                  {
-                    id: group.id,
-                    name: group.name,
-                    icon: <Text />,
-                  }
-                ))
+                data: textGroups.map((group) => ({
+                  id: group.id,
+                  name: group.name,
+                  icon: <Text />,
+                })),
               },
               {
                 label: "Video Groups",
                 type: "group",
-                data: videoGroups?.map((group) => (
-                  {
-                    id: group.id,
-                    name: group.name,
-                    icon: <Video />
-                  }
-                ))
+                data: videoGroups?.map((group) => ({
+                  id: group.id,
+                  name: group.name,
+                  icon: <Video />,
+                })),
               },
               {
                 label: "Audio Groups",
                 type: "group",
-                data: audioGroups?.map((group) => (
-                  {
-                    id: group.id,
-                    name: group.name,
-                    icon: <AudioLines />
-                  }
-                ))
+                data: audioGroups?.map((group) => ({
+                  id: group.id,
+                  name: group.name,
+                  icon: <AudioLines />,
+                })),
               },
               {
                 label: "Draw Groups",
@@ -233,7 +228,7 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
         )}
       </ScrollArea>
     </div>
-  )
-}
+  );
+};
 
-export default CommunitySidebar
+export default CommunitySidebar;

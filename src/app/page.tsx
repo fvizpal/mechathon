@@ -9,7 +9,6 @@ import EnterButton from "@/components/shared/EnterButton";
 import Link from "next/link";
 
 export default function Home() {
-
   return (
     <div>
       <header className="text-gray-600 body-font flex">

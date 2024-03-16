@@ -13,6 +13,7 @@ export type ModalType =
   | "deleteGroups"
   | "editGroups"
   | "messageFile"
+  | "usersettings"
 
 
 interface ModalData {

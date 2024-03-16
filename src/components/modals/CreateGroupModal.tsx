@@ -1,28 +1,49 @@
-'use client'
+"use client";
 
 import { useEffect } from "react";
-import { useModal } from "@/hooks/useModalStore"
+import { useModal } from "@/hooks/useModalStore";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import * as z from "zod";
-import qs from "query-string"
+import qs from "query-string";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { GroupType } from "@prisma/client";
 
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Group name is required."
-  }).refine(
-    name => name !== 'general',
-    { message: "Group name cannot be general" }
-  ),
+  name: z
+    .string()
+    .min(1, {
+      message: "Group name is required.",
+    })
+    .refine((name) => name !== "general", {
+      message: "Group name cannot be general",
+    }),
   type: z.nativeEnum(GroupType),
 });
 
@@ -33,14 +54,14 @@ export const CreateGroupModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const groupType = data.groupType;
 
-  const isModalOpen = isOpen && type === 'createGroup';
+  const isModalOpen = isOpen && type === "createGroup";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       type: groupType || GroupType.TEXT,
-    }
+    },
   });
 
   useEffect(() => {
@@ -60,7 +81,7 @@ export const CreateGroupModal = () => {
         url: "/api/groups",
         query: {
           communityId: params?.communityId,
-        }
+        },
       });
       await axios.post(url, values);
 
@@ -70,12 +91,12 @@ export const CreateGroupModal = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const handleClose = () => {
     form.reset();
     onClose();
-  }
+  };
 
   return (
     <>
@@ -94,9 +115,7 @@ export const CreateGroupModal = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                         Group name
                       </FormLabel>
                       <FormControl>
@@ -128,10 +147,9 @@ export const CreateGroupModal = () => {
                         </FormControl>
                         <SelectContent>
                           {Object.values(GroupType).map((type) => (
-                            <SelectItem
-                              key={type}
-                              value={type}
-                            >{type}</SelectItem>
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -140,14 +158,12 @@ export const CreateGroupModal = () => {
                 />
               </div>
               <DialogFooter className="bg-gray-100 px-6 py-4">
-                <Button disabled={isLoading}>
-                  Create
-                </Button>
+                <Button disabled={isLoading}>Create</Button>
               </DialogFooter>
             </form>
           </Form>
         </DialogContent>
       </Dialog>
     </>
-  )
-}
+  );
+};
