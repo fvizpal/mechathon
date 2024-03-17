@@ -44,7 +44,7 @@ export const CommunityGroup = ({
     <button
       onClick={onClick}
       className={cn(
-        " group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
+        " group ml-2 px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
         params?.groupId === group.id && "bg-zinc-300 dark:bg-zinc-700"
       )}
     >

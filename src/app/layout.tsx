@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/themeProvider";
 import { ModalProvider } from "@/components/providers/modalProvider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "../../auth";
+// import { SocketContext } from "@/components/providers/socketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,8 +33,10 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            {/* <SocketContext> */}
             <ModalProvider />
             {children}
+            {/* </SocketContext> */}
           </ThemeProvider>
         </body>
       </html>

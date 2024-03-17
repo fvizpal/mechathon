@@ -26,7 +26,7 @@ const ChatMessages = ({ initialMessages, groupId }: MessagesProps) => {
   }, [])
 
   return (
-    <div>
+    <div className=' my-4 mx-4 border-2 inline-block'>
       {initialMessages.map((message) => (
         <p ref={chatRef} key={message.id} >
           {message.content}

@@ -7,6 +7,7 @@ import ChatInput from '@/components/chat/ChatInput';
 import DrawPage from '@/components/draw/DrawPage';
 import ChatMessages from '@/components/chat/ChatMessages';
 import { Message } from '@prisma/client';
+import VideoPlayer from '@/components/chat/VideoPlayer';
 
 const GroupIdPage = async (
   { params }:
@@ -76,11 +77,13 @@ const GroupIdPage = async (
       {group.type === "AUDIO" && (
         <>
           {/* TODO: AUDIO CHANNEL COMPONENTS  */}
+          <VideoPlayer />
         </>
       )}
       {group.type === "VIDEO" && (
         <>
           {/* TODO: VIDEO CHANNEL COMPONENTS  */}
+          <VideoPlayer />
         </>
       )}
       {group.type === "DRAW" && (

@@ -6,7 +6,7 @@ const ChatHeader = ({ name, communityId, type }: {
   type: string
 }) => {
   return (
-    <div className=' flex items-center justify-center h-12 border-black border-b-2 mx-0' style={{ background: "#bbe9db" }}>
+    <div className=' flex items-center bg-red-100 dark:bg-zinc-800 justify-center h-12 border-black border-b-2 mx-0'>
       <p className=" capitalize font-semibold text-lg text-black dark:text-white">
         {name}
       </p>

@@ -27,9 +27,9 @@ const NavigationSidebar = async () => {
   });
 
   return (
-    <div className='h-full bg-zinc-700 flex flex-col items-center w-full py-4 space-y-4' style={{ background: "#757a79" }}>
-      <NavAddCommunity/>
-      <Separator />
+    <div className='h-full flex flex-col items-center w-full py-4 space-y-4 bg-red-300 dark:bg-gray-900'>
+      <NavAddCommunity />
+      <Separator className=' bg-slate-700' />
       <ScrollArea className='flex-1 w-full m-1'>
         {communities.map((community) => (
           <div key={community.id} className='mb-4 rounded-xl pr-2 mr-2'>
@@ -39,7 +39,7 @@ const NavigationSidebar = async () => {
               imageUrl={community.imageUrl}
             />
           </div>
-          
+
         ))}
       </ScrollArea>
     </div>
