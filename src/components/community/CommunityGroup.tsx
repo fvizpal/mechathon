@@ -48,9 +48,9 @@ export const CommunityGroup = ({
         params?.groupId === group.id && "bg-zinc-300 dark:bg-zinc-700"
       )}
     >
-      <Icon className="flex-shrink-0 w-5 h-5 text-zinc-500 dark:text-zinc-400" />
+      <Icon className="flex-shrink-0 w-5 h-5 text-zinc-500 dark:text-white-400" />
       <p className={cn(
-        "font-semibold text-sm text-zinc-500 group-hover:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition",
+        "font-semibold text-sm text-zinc-500 group-hover:text-zinc-600 dark:text-white-400 dark:group-hover:text-zinc-300 transition",
         params?.groupId === group.id && "text-primary dark:text-zinc-200 dark:group-hover:text-white"
       )}>
         {group.name}
@@ -59,11 +59,11 @@ export const CommunityGroup = ({
         <div className="ml-auto flex items-center gap-x-2">
           <Edit
             onClick={(e) => onAction(e, "editGroups")}
-            className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+            className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-white-400 dark:hover:text-zinc-300 transition"
           />
           <Trash
             onClick={(e) => onAction(e, "deleteGroups")}
-            className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
+            className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-white-400 dark:hover:text-zinc-300 transition"
           />
         </div>
       )}
