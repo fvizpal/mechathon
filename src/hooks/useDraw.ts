@@ -1,4 +1,4 @@
-import { Draw } from '@/types'
+import { Draw, Point } from '@/types'
 import { useEffect, useRef, useState } from 'react'
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
