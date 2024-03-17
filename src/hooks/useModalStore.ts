@@ -14,6 +14,7 @@ export type ModalType =
   | "editGroups"
   | "messageFile"
   | "usersettings"
+  | "messageFiles"
 
 
 interface ModalData {

@@ -1,9 +1,40 @@
-import React from 'react'
+'use client'
 
-const ChatMessages = () => {
+import { pusherClient } from '@/lib/pusher'
+import { Message } from '@prisma/client'
+import React, { ElementRef, useCallback, useEffect, useRef, useState } from 'react'
+
+interface MessagesProps {
+  initialMessages: Message[]
+  groupId: string
+}
+
+const ChatMessages = ({ initialMessages, groupId }: MessagesProps) => {
+  const [incomingMessages, setIncomingMessages] = useState<string[]>([])
+  const chatRef = useRef<ElementRef<"div">>(null);
+
+  useEffect(() => {
+    pusherClient.subscribe(groupId)
+
+    pusherClient.bind('incoming-message', (content: string) => {
+      setIncomingMessages((prev) => [...prev, content])
+    })
+
+    return () => {
+      pusherClient.unsubscribe(groupId)
+    }
+  }, [])
+
   return (
-    <div className="flex-1 flex flex-col">
-      ChatMessages
+    <div>
+      {initialMessages.map((message) => (
+        <p ref={chatRef} key={message.id} >
+          {message.content}
+        </p>
+      ))}
+      {incomingMessages.map((text, i) => (
+        <p ref={chatRef} key={i}>{text}</p>
+      ))}
     </div>
   )
 }

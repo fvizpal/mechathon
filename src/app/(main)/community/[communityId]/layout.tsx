@@ -34,7 +34,7 @@ const CommunityIdLayout = async ({
   }
 
   return (
-    <div className=' h-full'>
+    <div className="h-full">
       <div className='md:flex h-full w-60 flex-col fixed '>
         <CommunitySidebar communityId={params.communityId} />
       </div>

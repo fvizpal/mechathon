@@ -30,12 +30,12 @@ const page: FC<pageProps> = ({ }) => {
 
     socket.emit('join-room', socketKey);
 
-    socket.emit('client-ready', (socketKey));
+    socket.emit('client-ready', socketKey);
 
     socket.on('get-canvas-state', () => {
       if (!canvasRef.current?.toDataURL()) return
       console.log('sending canvas state')
-      socket.emit('canvas-state', (canvasRef.current.toDataURL(), socketKey))
+      socket.emit('canvas-state', canvasRef.current.toDataURL(), socketKey)
     })
 
     socket.on('canvas-state-from-server', (state: string) => {
@@ -47,12 +47,12 @@ const page: FC<pageProps> = ({ }) => {
       }
     })
 
-    socket.on('draw-line', ({ prevPoint, currentPoint, color }: DrawLineProps, socketKey) => {
+    socket.on('draw-line', ({ prevPoint, currentPoint, color }: DrawLineProps) => {
       if (!ctx) return console.log('no ctx here')
       drawLine({ prevPoint, currentPoint, ctx, color })
     })
 
-    socket.on('clear', (clear))
+    socket.on('clear', clear)
 
     return () => {
       socket.off('draw-line')
@@ -63,7 +63,7 @@ const page: FC<pageProps> = ({ }) => {
   }, [canvasRef])
 
   function createLine({ prevPoint, currentPoint, ctx }: Draw) {
-    socket.emit('draw-line', { prevPoint, currentPoint, color })
+    socket.emit(`draw-line}`, { prevPoint, currentPoint, color }, socketKey)
     drawLine({ prevPoint, currentPoint, ctx, color })
   }
 

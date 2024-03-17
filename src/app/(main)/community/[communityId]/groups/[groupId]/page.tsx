@@ -4,8 +4,9 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/database/db';
 import ChatHeader from '@/components/chat/ChatHeader';
 import ChatInput from '@/components/chat/ChatInput';
-import ChatMessages from '@/components/chat/ChatMessages';
 import DrawPage from '@/components/draw/DrawPage';
+import ChatMessages from '@/components/chat/ChatMessages';
+import { Message } from '@prisma/client';
 
 const GroupIdPage = async (
   { params }:
@@ -32,12 +33,30 @@ const GroupIdPage = async (
     }
   });
 
+  const groupId = params.groupId;
+
+  const existingMessages = await db.message.findMany({
+    where: {
+      groupId,
+    },
+    include: {
+      member: {
+        include: {
+          user: true,
+        }
+      }
+    },
+    orderBy: {
+      createdAt: "asc",
+    }
+  });
+
   if (!group || !member) {
     redirect("/onboard");
   }
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='bg-white dark:bg-[#46484d] flex flex-col h-full'>
       <ChatHeader
         name={group.name}
         communityId={group.communityId}
@@ -45,10 +64,9 @@ const GroupIdPage = async (
       />
       {group.type === "TEXT" && (
         <>
-          {/* TODO: TEXT CHANNEL COMPONENTS  */}
-          <ChatMessages />
+          <ChatMessages groupId={groupId} initialMessages={existingMessages} />
           <ChatInput
-            apiUrl='api/socket/messages'
+            apiUrl='/api/messages'
             name={group.name}
             query={{ communityId: group.communityId, groupId: group.id }}
             type='group'
