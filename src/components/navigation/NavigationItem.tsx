@@ -23,7 +23,7 @@ const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
 
   return (
     <>
-      <button className=" mx-2 flex bg-emerald-400 w-full rounded-xl hover:bg-orange-200" onClick={onClick}>
+      <button className=" mx-2 flex bg-gray-400 w-full rounded-xl hover:bg-gray-300 border-black border-b-2" onClick={onClick}>
         <Avatar className="m-1" style={{ "height": "50px", "width": "50px" }}>
           <AvatarImage src={imageUrl} />
           <AvatarFallback className="bg-sky-500">
