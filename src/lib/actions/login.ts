@@ -8,6 +8,7 @@ import { AuthError } from "next-auth";
 import { signIn } from "../../../auth";
 import { generateVerificationToken } from "./generateVerificationToken";
 import { sendVerificationEmail } from "../mailer";
+import { DEFAULT_LOGIN_REDIRECT } from "../../../routes";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -61,6 +62,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     })
   } catch (error) {
     if (error instanceof AuthError) {

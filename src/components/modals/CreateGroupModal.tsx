@@ -134,7 +134,7 @@ export const CreateGroupModal = () => {
                   name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Group Type</FormLabel>
+                      <FormLabel className="dark:text-white">Group Type</FormLabel>
                       <Select
                         disabled={isLoading}
                         onValueChange={field.onChange}
@@ -142,12 +142,12 @@ export const CreateGroupModal = () => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select groupd type" />
+                            <SelectValue placeholder="Select groupd type" className="dark:text-white" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {Object.values(GroupType).map((type) => (
-                            <SelectItem key={type} value={type}>
+                            <SelectItem key={type} value={type} className="dark:text-white">
                               {type}
                             </SelectItem>
                           ))}
