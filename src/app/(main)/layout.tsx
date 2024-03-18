@@ -7,7 +7,7 @@ const MainLayout = async ({
 }) => {
   return (
     <div className="h-full">
-      <div className="h-full md:flex flex-col w-[250px] fixed">
+      <div className=" hidden md:flex h-full flex-col w-[250px] fixed">
         <NavigationSidebar />
       </div>
       <main className="md:pl-[250px] h-full">

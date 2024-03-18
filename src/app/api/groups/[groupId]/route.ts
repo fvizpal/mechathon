@@ -52,9 +52,8 @@ export async function DELETE(req: Request, { params }: { params: { groupId: stri
     });
 
     return NextResponse.json(community);
-
   } catch (error) {
-    console.log("[GROUP_POST]", error);
+    console.log("[GROUPID_DELETE]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

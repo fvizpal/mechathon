@@ -2,20 +2,46 @@ import { useModal } from "@/hooks/useModalStore";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import qs from "query-string";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export const DeleteGroupModal = () => {
-  const { isOpen, onClose, type } = useModal(); // Assuming you pass the group data to the modal
+  const { isOpen, onClose, type, data } = useModal(); // Assuming you pass the group data to the modal
+
+  const router = useRouter();
+
+  const { community, group } = data;
 
   const isModalOpen = isOpen && type === 'deleteGroups';
   const [isConfirming, setConfirming] = useState(false);
 
-  const handleDelete = () => {
-    if (isConfirming) {
-      // Add logic to handle deleting the group
-      // console.log(`Deleting group: ${data?.groupName}`);
-      onClose();
-    } else {
-      setConfirming(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      if (isConfirming) {
+        setIsLoading(true);
+        const url = qs.stringifyUrl({
+          url: `/api/groups/${group?.id}`,
+          query: {
+            communityId: community?.id,
+          }
+        })
+
+        await axios.delete(url);
+
+        onClose();
+        router.refresh();
+        router.push(`/community/${community?.id}`);
+      } else {
+        setConfirming(true);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,7 +66,7 @@ export const DeleteGroupModal = () => {
             {isConfirming ? (
               <p className="text-center text-gray-700">
                 Are you sure you want to delete the group
-                {/* "{data?.groupName}"? */}
+                "{data?.group?.name}"?
               </p>
             ) : (
               <p className="text-center text-gray-700">
@@ -55,6 +81,7 @@ export const DeleteGroupModal = () => {
             <Button onClick={handleDelete} variant={isConfirming ? 'destructive' : 'default'}>
               {isConfirming ? 'Delete' : 'Confirm'}
             </Button>
+            {isLoading && <div>Deleting...</div>}
           </DialogFooter>
         </DialogContent>
       </Dialog>

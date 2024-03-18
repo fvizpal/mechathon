@@ -67,7 +67,7 @@ const CommunitySidebar = async ({ communityId }: { communityId: string }) => {
 
 
   return (
-    <div className="flex flex-col h-full text-primary w-full bg-red-200 dark:bg-gray-800 ">
+    <div className=" flex flex-col h-full text-primary w-full bg-red-200 dark:bg-gray-800 ">
       <CommunityHeader community={community} role={role} />
       <ScrollArea>
         <div className="mt-2">

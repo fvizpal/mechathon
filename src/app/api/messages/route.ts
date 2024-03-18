@@ -32,7 +32,6 @@ export async function POST(req: Request) {
       return new NextResponse("Missing content", { status: 400 });
     }
 
-    pusherServer.trigger(groupId, 'incoming-message', content)
 
     const community = await db.community.findFirst({
       where: {
@@ -85,6 +84,7 @@ export async function POST(req: Request) {
         }
       }
     });
+    pusherServer.trigger(groupId, 'incoming-message', message)
 
     return NextResponse.json(message);
   } catch (error) {
