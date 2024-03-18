@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div>
       <header className="text-gray-600 body-font flex">
-        <div className="container mx-auto p-5 gap-4 flex items-center">
+        <div className=" flex flex-row container mx-auto p-5 gap-4 items-center">
           <Link href={"/"} className="font-medium text-gray-900">
             <span className="ml-3 text-xl dark:text-white">
               BaatCheet
