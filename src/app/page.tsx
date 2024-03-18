@@ -14,15 +14,15 @@ export default function Home() {
       <header className="text-gray-600 body-font flex">
         <div className="container mx-auto p-5 gap-4 flex items-center">
           <Link href={"/"} className="font-medium text-gray-900">
-            <span className="ml-3 text-xl">
+            <span className="ml-3 text-xl dark:text-white">
               BaatCheet
             </span>
           </Link>
           <nav className="md:ml-auto md:mr-auto flex items-center text-base justify-center">
-            <Link href={"/"} className="mr-5 hover:text-gray-900">Discover</Link>
-            <Link href={"/blog"} className="mr-5 hover:text-gray-900">Blog</Link>
-            <Link href={"/about"} className="mr-5 hover:text-gray-900">About</Link>
-            <Link href={"/contact"} className="mr-5 hover:text-gray-900">Contact Us</Link>
+            <Link href={"/"} className="mr-5 hover:text-gray-900 dark:text-white">Discover</Link>
+            <Link href={"/blog"} className="mr-5 hover:text-gray-900 dark:text-white">Blog</Link>
+            <Link href={"/about"} className="mr-5 hover:text-gray-900 dark:text-white">About</Link>
+            <Link href={"/contact"} className="mr-5 hover:text-gray-900 dark:text-white">Contact Us</Link>
           </nav>
           <ModeToggle />
           <EnterButton />
@@ -30,8 +30,8 @@ export default function Home() {
       </header>
       <section className="text-gray-600 container px-5 py-24 body-font mx-auto flex flex-wrap">
         <div className="flex flex-col justify-center items-center w-full mb-20">
-          <h1 className="sm:text-4xl text-2xl font-medium text-gray-900 mb-4">Discover Your Community....</h1>
-          <p className="lg:pl-6 lg:w-2/3 leading-relaxed text-base">Discover
+          <h1 className="sm:text-4xl text-2xl font-medium text-gray-900 mb-4 dark:text-white">Discover Your Community....</h1>
+          <p className="lg:pl-6 lg:w-2/3 leading-relaxed text-base dark:text-white">Discover
             and connect
             with like-minded individuals effortlessly with ConnectHub.
             Our app is your gateway to meeting people who share your
