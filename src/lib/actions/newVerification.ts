@@ -1,3 +1,5 @@
+'use server'
+
 import { db } from "../database/db"
 
 export const newVerification = async (token: string) => {
@@ -37,5 +39,5 @@ export const newVerification = async (token: string) => {
     where: { id: existingToken.id }
   });
 
-  return { success: "Email verified! Go to login now!" };
+  return { success: "Email verified! You can login now!" };
 }

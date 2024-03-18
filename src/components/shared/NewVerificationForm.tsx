@@ -38,7 +38,7 @@ const NewVerificationForm = () => {
 
   return (
     <>
-      <div className="flex items-center w-full justify-center">
+      <div className="flex items-center w-full justify-center mt-10">
         {!success && !error && (
           <p>Confirming...</p>
         )}

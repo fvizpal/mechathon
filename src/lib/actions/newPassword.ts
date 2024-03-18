@@ -53,5 +53,5 @@ export const newPassword = async (
     where: { id: existingToken.id }
   });
 
-  return { success: "Password updated!" };
+  return { success: "Password updated! Go back to Login Now!" };
 };
