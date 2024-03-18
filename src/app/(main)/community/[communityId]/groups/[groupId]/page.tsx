@@ -56,6 +56,9 @@ const GroupIdPage = async (
     redirect("/onboard");
   }
 
+  const meatype = typeof existingMessages
+  console.log(meatype);
+
   return (
     <div className='bg-white dark:bg-[#46484d] flex flex-col h-full'>
       <ChatHeader

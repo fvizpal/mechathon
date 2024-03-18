@@ -1,7 +1,7 @@
 'use client'
 
 import { pusherClient } from '@/lib/pusher'
-import { Message, User } from '@prisma/client'
+import { MemberRole, Message, User, } from '@prisma/client'
 import React, { ElementRef, useCallback, useEffect, useRef, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
@@ -40,9 +40,9 @@ const ChatMessages = ({ initialMessages, groupId }: MessagesProps) => {
   }, [])
 
   return (
-    <div className='mx-2 flex flex-col'>
+    <div className='mx-2 flex flex-col overflow-y-auto'>
       {initialMessages.map((message) => (
-        <p ref={chatRef} key={message.id} className=' dark:bg-slate-800 flex gap-4 border-2 p-2 text-lg rounded-md font-medium inline-block mt-4 bg-red-100 max-w-max'>
+        <p ref={chatRef} key={message.id} className=' dark:bg-slate-800 flex gap-4 border-2 p-2 text-lg rounded-md font-medium my-2 bg-red-100 max-w-max'>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
@@ -52,7 +52,7 @@ const ChatMessages = ({ initialMessages, groupId }: MessagesProps) => {
         </p>
       ))}
       {incomingMessages.map((message) => (
-        <p ref={chatRef} key={message.id} className=' dark:bg-slate-800 flex gap-4 border-2 p-2 text-lg rounded-md font-medium inline-block mt-4 bg-red-100 max-w-max'>
+        <p ref={chatRef} key={message.id} className=' dark:bg-slate-800 flex gap-4 border-2 p-2 text-lg rounded-md font-medium mt-4 bg-red-100 max-w-max'>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
