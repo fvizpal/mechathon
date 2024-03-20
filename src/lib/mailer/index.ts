@@ -24,9 +24,16 @@ export const sendVerificationEmail = async (emailContent: EmailContent, sendTo: 
     html: emailContent.body,
   }
 
-  transporter.sendMail(mailOptions, (error: any, info: any) => {
-    if (error) return console.log(error);
-
-    console.log('Email sent: ', info);
-  })
+  await new Promise((resolve, reject) => {
+    // send mail
+    transporter.sendMail(mailOptions, (err: any, info: any) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log(info);
+        resolve(info);
+      }
+    });
+  });
 }
