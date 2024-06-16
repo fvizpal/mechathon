@@ -2,7 +2,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="container mx-auto p-6">
+    <div className="bg-gray-100 text-gray-800 container mx-auto p-6">
       <div className="bg-white shadow-md rounded-lg p-6">
         <h1 className="text-4xl font-bold text-center mb-6">About Our Web App</h1>
         <p className="text-lg mb-4">

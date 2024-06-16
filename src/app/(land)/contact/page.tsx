@@ -2,9 +2,12 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="container mx-auto p-6">
+    <div className="bg-gray-100 text-gray-800 container mx-auto p-6">
       <div className="bg-white shadow-md rounded-lg p-6">
         <h1 className="text-4xl font-bold text-center mb-8">Contact Us</h1>
+        <p className="text-lg text-center mb-8">
+          We welcome your questions, feedback, and collaboration inquiries. Please feel free to reach out to us using the contact information below. Whether you're interested in our project, have suggestions, or simply want to connect, we'd love to hear from you!
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* <!-- Vishal Pal --> */}
