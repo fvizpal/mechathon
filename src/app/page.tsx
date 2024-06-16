@@ -33,10 +33,10 @@ export default function Home() {
           <h1 className="sm:text-4xl text-2xl font-medium text-gray-900 mb-4 dark:text-white">Discover Your Community....</h1>
           <p className="lg:pl-6 lg:w-2/3 leading-relaxed text-base dark:text-white">Discover
             and connect
-            with like-minded individuals effortlessly with ConnectHub.
+            with like-minded individuals effortlessly with Baatcheet.
             Our app is your gateway to meeting people who share your
             interests, hobbies, or goals. Whether it's art, fitness, or
-            travel, ConnectHub helps you find your tribe. Download now
+            travel, Baatcheet helps you find your tribe. Download now
             and start connecting!.</p>
         </div>
       </section>

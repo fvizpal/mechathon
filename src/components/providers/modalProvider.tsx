@@ -14,18 +14,6 @@ import { EditGroupModal } from "../modals/EditGroupModal"
 import { UserSettings } from '../modals/UserSettings'
 import { MessageFileModal } from "../modals/MessageFileModal"
 
-
-//   | "auth"   x 
-//   | "createCommunity"   x 
-//   | "invite" // with a link and copy button    x
-//   | "editCommunity"   x
-//   | "members" // renders members with name and email    x
-//   | "createGroup"     x 
-//   | "leaveCommunity" // confirm that you want to leave community   x 
-//   | "deleteCommunity" // confirm for deletion of community       x 
-//   | "deleteGroups" // confirm the deletion of group          x 
-//   | "editGroups"          x
-
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
