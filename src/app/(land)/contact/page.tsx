@@ -31,9 +31,9 @@ const page = () => {
           {/* <!-- Mohammad Rehan --> */}
           <div className="bg-gray-50 p-4 rounded-lg shadow">
             <h2 className="text-2xl font-semibold mb-4">Mohammad Rehan</h2>
-            <p className="text-lg mb-2"><strong>Phone:</strong> +91 98765 43210</p>
+            <p className="text-lg mb-2"><strong>Phone:</strong> +91 8470968029</p>
             <p className="text-lg mb-2"><strong>Email:</strong> mohammad.rehan@example.com</p>
-            <p className="text-lg mb-2"><strong>GitHub:</strong> <a href="https://https://github.com/rehan313git" className="text-blue-500">github.com/rehan313git</a></p>
+            <p className="text-lg mb-2"><strong>GitHub:</strong> <a href="https://github.com/rehan313git" className="text-blue-500">github.com/rehan313git</a></p>
             <p className="text-lg"><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/mohammadrehan" className="text-blue-500">linkedin.com/in/mohammadrehan</a></p>
           </div>
 
